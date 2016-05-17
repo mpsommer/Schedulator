@@ -4,7 +4,6 @@ from operator import itemgetter
 from Workload import Workload
 from BatchScheduler import BatchScheduler
 from Job import Job
-from Job_Queue import Job_Queue
 from DAG_Generator import DAG_Generator
 from CSV_Creator import CSV_Creator
 
