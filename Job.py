@@ -16,4 +16,7 @@ class Job(object):
 		self.is_dag_job = is_dag_job
 
 
-
+    def __str__(self):
+        string = str(self.job_id)
+        string += "-" + str(self.actual_time)
+        return string
