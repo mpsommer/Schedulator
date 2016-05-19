@@ -20,7 +20,7 @@ class Workload(object):
 		try:
 			job_list_file = open(self.filename, 'r')
 		except IOError, e:
-			print 'No such file or directory:'
+			print 'No such workload file:'
 			sys.exit()
 		is_dag_job = False
 		for (i,line) in enumerate(job_list_file.readlines()):

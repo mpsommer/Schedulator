@@ -7,10 +7,10 @@ from Job import Job
 from DAG_Generator import DAG_Generator
 from CSV_Creator import CSV_Creator
 
-
+#########################################################     ADDRESS THIS     #######################################################
 #Workload
 if len(sys.argv) == 1:
-	print "Please specify a workload file"
+	print "Please specify a workload and DAG config file"
 	sys.exit()
 else:
 	print " "
@@ -23,7 +23,7 @@ print 'file = ', workload.filename
 workload.job_list_creator()
 
 #DAG
-graph = DAG_Generator(64)
+graph = DAG_Generator(sys.argv[2])
 
 
 #Batch Scheduler and jobs 

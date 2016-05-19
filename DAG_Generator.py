@@ -1,23 +1,38 @@
 #!/usr/bin/python
 from Job import Job
 import networkx as nx
-from random import randint
-import math
+import sys as sys
+
 
 class DAG_Generator(object):
 
-	id = -1000
 
-	def __init__(self, shape_count):
+	def __init__(self, config_file):
 		object.__init__(self)
-		self.graph = nx.DiGraph()
-		self.shape_list = []
-		self.shape_count = shape_count
-		#create the DAG
-		self.graph = self.dag_creator()
+		self.DAG = nx.DiGraph()
+		self.filename = config_file
+		self.dag_creator()
 
 
 
+	def dag_creator(self):
+		try:
+			DAG_config_file = open(self.filename, 'r')
+		except IOError, e:
+			print 'No such DAG config file'
+			sys.exit()
+		for (i,line) in enumerate(DAG_config_file.readlines()):
+			print line
+
+
+
+
+
+
+
+
+
+"""
 	def parallel_shape_creator(self):
 		job0 = Job(DAG_Generator.id, 1, 1, 1, 1, 0, 0, 0, True)
 		DAG_Generator.id += 1
@@ -125,7 +140,7 @@ class DAG_Generator(object):
 				return x
 
 
-
+"""
 
 
 

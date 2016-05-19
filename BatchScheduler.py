@@ -23,8 +23,9 @@ class BatchScheduler(object):
 		self.running_queue = []
 		self.prediction_queue = []
 		self.prediction_running_queue = []
-		self.graph = graph
-		self.DAG = graph.graph
+#################################################    ADDRESS THIS ##############################################		
+		#self.graph = graph
+		#self.DAG = graph.graph
 		self.completed_dag_jobs = []
 		self.is_head_job_submitted = True
 		self.dag_jobs_in_system = []
