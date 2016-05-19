@@ -15,8 +15,7 @@ class Job(object):
 		self.sys_procs_avail_at_run_queue_start = sys_procs_avail_at_run_queue_start
 		self.is_dag_job = is_dag_job
 
-
-    def __str__(self):
-        string = str(self.job_id)
-        string += "-" + str(self.actual_time)
-        return string
+	def __str__(self):
+		string = str(self.job_id)
+		string += "-" + str(self.actual_time)
+		return string
