@@ -10,6 +10,10 @@ import Queue as q
 
 class permutationMaker (threading.Thread):
     #initialization and constructor method.
+    #dag is the source dag
+    #output is a string that is the base name of the file output
+    #See run method for clusterType use
+    #Thread is the thread cap, to be used for multithreaded methods
     def __init__(self, dag, output, clusterType = 0, threads = 1):
         #This will be used if you decide to run the program with
         #the run command through a thread. See run for what each cluster
@@ -253,6 +257,9 @@ class permutationMaker (threading.Thread):
         # (Tasks): id req act procs(always 1))
         # (Edges): e id1 id2
         # Keep ids contiguous, so ignore the given job ID
+        # The ids will also be output as negative values.
+        #MakeContiguous makes ids starting at 0, but evertthing is incremented
+        #before output. Ie tasks will have ids -1, -2, -3. . . 
         
         #The file name will be the given file base, followed by _p
         #and then its current number, in text file format.
@@ -266,10 +273,10 @@ class permutationMaker (threading.Thread):
         string = ''
         #Writing out each string to the file.
         for n in nodes:
-            string = "T " + str(n.job_id) + " " + str(n.requested_time) + " " + str(n.actual_time) + " 1\n"
+            string = "T -" + str(n.job_id+1) + " " + str(n.requested_time) + " " + str(n.actual_time) + " 1\n"
             f.write(string)
         for e in edges:
-            string = "E " + str(e[0].job_id) + " " + str(e[1].job_id) + "\n"
+            string = "E -" + str(e[0].job_id+1) + " -" + str(e[1].job_id+1) + "\n"
             f.write(string)
         f.close()
     
