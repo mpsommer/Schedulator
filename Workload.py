@@ -34,6 +34,10 @@ class Workload(object):
 					temp = arr[3]
 					arr[3] = arr[8]
 					arr[8] = temp
+				if long(arr[3]) < 0:
+					arr[3] = 1
+				if long(arr[4]) < 0:
+					arr[4] = 1
 				self.workload.append(Job(long(arr[0]), long(arr[1]), long(arr[8]), long(arr[3]) , long(arr[4]), 0, 0, 0, is_dag_job))
 		self.workload.append('-1 100000000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 1 -1 -1 -1')
 		job_list_file.close()

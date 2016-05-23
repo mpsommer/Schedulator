@@ -14,8 +14,9 @@ if len(sys.argv) == 1:
 	sys.exit()
 else:
 	print " "
-	print sys.argv
+	print "#####################################"
 	print "#####     Building workload     #####"
+	print "#####################################"
 	workload = Workload(sys.argv[1])
 
 
@@ -40,17 +41,15 @@ print "#####     Starting simulation     #####"
 begin = 0
 end = len(workload.workload)-2
 for i in range(begin, end):
-#while i < len(workload.workload):
 
-	
 	job_to_submit = workload.workload.pop(0)
 	
 
     ##########     checks for incorrect jobs in .swf file     ##########
-	if job_to_submit.submit_time == -1 or job_to_submit.actual_time == -1 or job_to_submit.number_of_procs == -1:
-		#job_to_submit.submit_time = 0
-		job_to_submit.actual_time = 1
-		job_to_submit.number_of_procs = 1
+	# if job_to_submit.submit_time == -1 or job_to_submit.actual_time == -1 or job_to_submit.number_of_procs == -1:
+	# 	#job_to_submit.submit_time = 0
+	# 	job_to_submit.actual_time = 1
+	# 	job_to_submit.number_of_procs = 1
 
 	if job_to_submit.number_of_procs <= system_procs:
 		batchscheduler.submit_new_job(job_to_submit)
