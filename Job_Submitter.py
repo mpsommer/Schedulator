@@ -7,35 +7,43 @@ from Job import Job
 from DAG_Generator import DAG_Generator
 from CSV_Creator import CSV_Creator
 
-#########################################################     ADDRESS THIS     #######################################################
-#Workload
-if len(sys.argv) == 1:
-	print "Please specify a workload and DAG config file"
-	sys.exit()
-else:
+if len(sys.argv) != 5:
 	print " "
-	print "#####################################"
-	print "#####     Building workload     #####"
-	print "#####################################"
-	workload = Workload(sys.argv[1])
+	print "Please specify a workload file, DAG config file and the first DAG job submit time"
+	print " "
+	sys.exit()
 
 
-print 'file = ', workload.filename
-workload.job_list_creator()
+workload = Workload(sys.argv[1])
+dag_config_file = sys.argv[2]
+head_job_submit_time = sys.argv[3]
+system_procs = int(sys.argv[4])
 
-#DAG
-graph = DAG_Generator(sys.argv[2])
-
-
-#Batch Scheduler and jobs 
-completed_jobs = []
-jobs = []
-system_procs = 240
-batchscheduler = BatchScheduler(system_procs, graph)
 
 print " "
-print "#####     Starting simulation     #####"
-##########     SIMULATION     ####################
+print 'SWF file =', workload.filename
+print 'DAG config file =', dag_config_file 
+print 'First DAG job submit time =', head_job_submit_time
+print 'System processes =', system_procs
+
+print " "
+print "        Building workload..."
+print " "
+workload.job_list_creator()
+
+print " "
+print "        Building DAG...     "
+print " "
+graph = DAG_Generator(dag_config_file)
+
+
+batchscheduler = BatchScheduler(system_procs, graph)
+completed_jobs = []
+jobs = []
+
+print " "
+print "        Starting simulation...     "
+print " "
 
 #loop to traverse workload jobs
 begin = 0
@@ -43,13 +51,6 @@ end = len(workload.workload)-2
 for i in range(begin, end):
 
 	job_to_submit = workload.workload.pop(0)
-	
-
-    ##########     checks for incorrect jobs in .swf file     ##########
-	# if job_to_submit.submit_time == -1 or job_to_submit.actual_time == -1 or job_to_submit.number_of_procs == -1:
-	# 	#job_to_submit.submit_time = 0
-	# 	job_to_submit.actual_time = 1
-	# 	job_to_submit.number_of_procs = 1
 
 	if job_to_submit.number_of_procs <= system_procs:
 		batchscheduler.submit_new_job(job_to_submit)
