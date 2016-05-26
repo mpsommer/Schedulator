@@ -13,7 +13,7 @@ import copy
 class BatchScheduler(object):
 
 	#initialize a batch scheduler with the amount of processors some system has
-	def __init__(self, number_of_procs_in_system, graph):
+	def __init__(self, number_of_procs_in_system):
 		object.__init__(self)
 		self.number_of_procs_in_system = number_of_procs_in_system
 		self.number_of_procs_available = self.number_of_procs_in_system
@@ -23,13 +23,7 @@ class BatchScheduler(object):
 		self.running_queue = []
 		self.prediction_queue = []
 		self.prediction_running_queue = []
-#################################################    ADDRESS THIS ##############################################		
-		#self.graph = graph
-		#self.DAG = graph.graph
-		self.completed_dag_jobs = []
-		self.is_head_job_submitted = True
-		self.dag_jobs_in_system = []
-
+	
 
 	def submit_new_job(self, job_to_submit):		
 		self.total_jobs_in_system.append(job_to_submit)
