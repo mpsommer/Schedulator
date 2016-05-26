@@ -4,7 +4,7 @@ from operator import itemgetter
 from Workload import Workload
 from BatchScheduler import BatchScheduler
 from Job import Job
-from DAG_Generator import DAG_Generator
+from DAG_Handler import DAG_Handler
 from CSV_Creator import CSV_Creator
 
 if len(sys.argv) != 5:
@@ -15,14 +15,14 @@ if len(sys.argv) != 5:
 
 
 workload = Workload(sys.argv[1])
-dag_config_file = sys.argv[2]
-head_job_submit_time = sys.argv[3]
+DAG = DAG_Handler(sys.argv[2])
+head_job_submit_time = int(sys.argv[3])
 system_procs = int(sys.argv[4])
 
 
 print " "
 print 'SWF file =', workload.filename
-print 'DAG config file =', dag_config_file 
+print 'DAG config file =', DAG.filename
 print 'First DAG job submit time =', head_job_submit_time
 print 'System processes =', system_procs
 
@@ -34,11 +34,12 @@ workload.job_list_creator()
 print " "
 print "        Building DAG...     "
 print " "
-graph = DAG_Generator(dag_config_file)
+DAG.dag_creator()
 
 
-batchscheduler = BatchScheduler(system_procs, graph)
+batchscheduler = BatchScheduler(system_procs)
 completed_jobs = []
+#successors_list = []
 jobs = []
 
 print " "
@@ -72,30 +73,28 @@ for i in range(begin, end):
 
 
 		# ##########     submit first dag job     ##########
-		# if batchscheduler.current_time >= 1000000 and batchscheduler.is_head_job_submitted == True:
-		# 	x = batchscheduler.graph.get_head_node()
-		# 	x.submit_time = batchscheduler.current_time
-		# 	batchscheduler.submit_new_job(x)
-		# 	batchscheduler.dag_jobs_in_system.append(x)
-		# 	batchscheduler.is_head_job_submitted = False
+		if batchscheduler.current_time >= head_job_submit_time and DAG.is_head_job_submitted == False:
+			head_job = DAG.get_head_node()
+			head_job.submit_time = batchscheduler.current_time
+			batchscheduler.submit_new_job(head_job)
+			DAG.dag_jobs_in_system.append(head_job)
+			DAG.is_head_job_submitted = True
 
-		# ##submit completed dag jobs to a list
-		# count = 0
-		# if completed_job_from_queue.is_dag_job:
-		# 	batchscheduler.completed_dag_jobs.append(completed_job_from_queue)
 
-		# 	#########     Logic to submit the dag jobs dependent on completed dag job     ##########
-		# 	successors_list = batchscheduler.DAG.successors(completed_job_from_queue)
-		# 	for x in successors_list:
-		# 		predecessors_list = batchscheduler.DAG.predecessors(x)
-		# 		count = 0
-		# 		for y in predecessors_list:
-		# 			if y in batchscheduler.completed_dag_jobs:
-		# 				count = count + 1
-		# 		if count == batchscheduler.DAG.in_degree(x):
-		# 			x.submit_time = batchscheduler.current_time
-		# 			batchscheduler.submit_new_job(x)
-		# 			batchscheduler.dag_jobs_in_system.append(x)
+		# #########     Logic to submit the dag jobs dependent on completed dag job     ##########
+		if completed_job_from_queue.is_dag_job:
+			DAG.completed_dag_jobs.append(completed_job_from_queue)
+			successors_list = DAG.DAG.successors(completed_job_from_queue)
+			for x in successors_list:
+				predecessors_list = DAG.DAG.predecessors(x)
+				count = 0
+				for y in predecessors_list:
+					if y in DAG.completed_dag_jobs:
+						count = count + 1
+				if count == DAG.DAG.in_degree(x):
+					x.submit_time = batchscheduler.current_time
+					batchscheduler.submit_new_job(x)
+					DAG.dag_jobs_in_system.append(x)
 	
 
 		batchscheduler.FCFS(-1)			
