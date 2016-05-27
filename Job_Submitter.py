@@ -5,11 +5,11 @@ from Workload import Workload
 from BatchScheduler import BatchScheduler
 from Job import Job
 from DAG_Handler import DAG_Handler
-from CSV_Creator import CSV_Creator
+from Output_Handler import Output_Handler
 
 if len(sys.argv) != 5:
 	print " "
-	print "Please specify a workload file, DAG config file and the first DAG job submit time"
+	print "Please specify a workload file, DAG config file, first DAG job submit time, and the total number of system processes"
 	print " "
 	sys.exit()
 
@@ -39,7 +39,6 @@ DAG.dag_creator()
 
 batchscheduler = BatchScheduler(system_procs)
 completed_jobs = []
-#successors_list = []
 jobs = []
 
 print " "
@@ -111,7 +110,7 @@ completed_jobs.sort(key=lambda x: x.run_queue_end)
 
 
 
-# results = CSV_Creator(completed_jobs)
+# results = Output_Handler(completed_jobs)
 # results.results_to_file()
 
 
