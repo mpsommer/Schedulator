@@ -1,4 +1,6 @@
 #!/usr/bin/python
+#@author: Michael Sommer
+
 from time import gmtime, strftime
 from datetime import datetime
 from Job import Job

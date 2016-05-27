@@ -1,4 +1,6 @@
 #!/usr/bin/python
+#@author: Michael Sommer
+
 from Job import Job
 import sys as sys
 

@@ -1,4 +1,6 @@
 #!/usr/bin/python
+#@author: Michael Sommer
+
 import sys as sys
 from operator import itemgetter
 from Workload import Workload

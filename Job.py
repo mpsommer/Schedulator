@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+#@author: Michael Sommer
 
 class Job(object):
 

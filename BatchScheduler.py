@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#@author: Michael Sommer
 
 class BatchScheduler(object):
 

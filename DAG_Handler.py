@@ -1,4 +1,6 @@
 #!/usr/bin/python
+#@author: Michael Sommer
+
 from Job import Job
 import networkx as nx
 import sys as sys
