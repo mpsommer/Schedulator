@@ -29,8 +29,8 @@ class BatchScheduler(object):
 		self.total_jobs_in_system.append(job_to_submit)
 		self.current_time = job_to_submit.submit_time	
 		self.waiting_queue.append(job_to_submit)
-		self.FCFS(job_to_submit.job_id)
-		self.backfill(job_to_submit.job_id)
+		self.FCFS()
+		self.backfill()
 	
 
 	def time_advance(self, duration):
@@ -38,7 +38,7 @@ class BatchScheduler(object):
 
 
 	#####     Places job in run queue if resources are available essentially FCFS
-	def FCFS(self, x):
+	def FCFS(self):
 		while len(self.waiting_queue) > 0 and self.number_of_procs_available >= self.waiting_queue[0].number_of_procs:
 			self.waiting_queue[0].run_queue_start = self.current_time
 			self.waiting_queue[0].run_queue_end = self.waiting_queue[0].run_queue_start + self.waiting_queue[0].actual_time
@@ -51,7 +51,7 @@ class BatchScheduler(object):
 
 	#####     Traverses the waiting list and attempts to backfill all waiting jobs
 	#####     function is called when a job ends
-	def backfill(self, x):
+	def backfill(self,):
 		self.calculate_job_runqueue_start_and_procs_avail_at_start()
 		for job in self.waiting_queue:
 			if self.can_conservative_backfill(job):

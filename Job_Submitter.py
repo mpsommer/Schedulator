@@ -97,8 +97,8 @@ for i in range(begin, end):
 					DAG.dag_jobs_in_system.append(x)
 	
 
-		batchscheduler.FCFS(-1)			
-		batchscheduler.backfill(-1) 
+		batchscheduler.FCFS()			
+		batchscheduler.backfill() 
 
 	##########     Moves the time forward the appropriate amount     #########
 	time_pad = time_of_next_job_submission - batchscheduler.current_time
