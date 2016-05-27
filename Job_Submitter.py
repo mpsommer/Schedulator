@@ -104,35 +104,20 @@ for i in range(begin, end):
 	batchscheduler.time_advance(time_pad)
 	
 
-
+# sort completed jobs by their end time
 completed_jobs.sort(key=lambda x: x.run_queue_end)
+DAG.completed_dag_jobs.sort(key=lambda x: x.run_queue_end)
 
 
 
+output = Output_Handler()
+#output.results_to_file(completed_jobs)
+#output.results_to_file(DAG.completed_dag_jobs)
+output.results_to_console(DAG.completed_dag_jobs)
 
-# results = Output_Handler(completed_jobs)
-# results.results_to_file()
 
-
-#head_tail_list = []
-###### print the jobs ###########
 print 'completed_jobs', len(completed_jobs)
-# for i in completed_jobs:
-# 	wait_time = i.run_queue_start - i.submit_time
-# 	run_time = i.run_queue_end - i.run_queue_start
-# 	#print i.run_queue_start, i.submit_time
-#  	print i.job_id, i.submit_time, wait_time, run_time, i.number_of_procs
 
-	#if i.job.job_id < 0:
-#	if i.job.job_id == head_job.job_id:
-#		head_tail_list.append(i.job)
-#		print 'completed job id:', i.job.job_id
-#		print 'head job submit time', i.job.submit_time
-#		print
-#	if i.job.job_id == tail_job.job_id:
-#		head_tail_list.append(i.job)
-#		print 'completed job id:', i.job.job_id
-#		print 'tail job end time', i.job.run_queue_end
 	
 
 
