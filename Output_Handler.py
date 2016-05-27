@@ -7,7 +7,7 @@ class Output_Handler(object):
 	def __init__(self):
 		object.__init__(self)
 
-	# creates a csv file with the of a 
+	# write job_list attributes to csv file
 	def results_to_file(self, job_list):
 		file_name = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f") + ".csv"
 		target = open(file_name, 'w')
@@ -23,6 +23,7 @@ class Output_Handler(object):
 			target.write("\n")
 		target.close()
 
+	# print the job_list attributes
 	def results_to_console(self, job_list):
 		print "Job id,     submit_time,     wait time,     run time,     num_procs"
 		for i in job_list:
