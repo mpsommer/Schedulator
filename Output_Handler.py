@@ -2,7 +2,7 @@
 from time import gmtime, strftime
 from Job import Job
 
-class CSV_Creator(object):
+class Output_Handler(object):
 	def __init__(self, completed_jobs):
 		object.__init__(self)
 		self.completed_jobs = completed_jobs
