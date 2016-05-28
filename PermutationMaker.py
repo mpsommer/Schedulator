@@ -374,23 +374,17 @@ class permutationMaker (threading.Thread):
                 if dag.node[node]['level'] == i:
                     nodes.append(node)
             j = 0
-            #TODO: This part of the code doesn't work
-            #for some gaps when it is incremented by 1.
-            #Need to fix it so the gap is always divisible
-            #Perhaps through preliminary combining until len(nodes) is divisible.
+            combined = 0
             gap = len(nodes) / nodesPerLevel
-            if not len(nodes) % nodesPerLevel == 0:
-                gap += 1
-            while len(nodes) > nodesPerLevel + j:
-                #Loop until there are only as many nodes as nodes per level
-                #If we're at the end of the array and there are leftovers
-    
-                if (j + 1) * gap - 1 >= len(nodes):
-                    for k in xrange(j*gap,len(nodes)):
-                        self.combine(dag,nodes[j*gap],nodes[k])
-                else:
-                    for k in xrange(1,gap):
-                        self.combine(dag,nodes[j*gap],nodes[j*gap+k])
-                j += 1
+            extra = len(nodes) % nodesPerLevel
+            if(gap > 0):
+                for i in xrange(0,extra):
+                    self.combine(dag,nodes[i * gap],nodes[gap*nodesPerLevel+i])
+                    combined += 1
+                while len(nodes) - combined > nodesPerLevel:
+                    for i in xrange(1,gap):
+                        self.combine(dag,nodes[j*gap],nodes[j*gap+i])
+                        combined += 1
+                    j += 1
         self.addWithoutDuplicates(self.listOfPerm,dag)
         return dag
